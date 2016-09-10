@@ -10,7 +10,9 @@ import java.time.LocalDate;
  */
 public class Gif {
     public String name;
+    private String username;
     private LocalDate dateUploaded;
+    private boolean favourite;
 
     public String getName() {
         return name;
@@ -43,9 +45,6 @@ public class Gif {
     public void setFavourite(boolean favourite) {
         this.favourite = favourite;
     }
-
-    private String username;
-    private boolean favourite;
 
     public Gif(String name, LocalDate dateUploaded, String username, boolean favourite) {
         this.name = name;
