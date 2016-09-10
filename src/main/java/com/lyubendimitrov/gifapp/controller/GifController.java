@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author <a href="mailto:lyuben.dimitrov@comsysto.com">dimitrov</a>
@@ -23,7 +24,9 @@ public class GifController {
     private GifRepository gifRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String listGifs() {
+    public String listGifs(ModelMap modelMap) {
+        List<Gif> allGifs = gifRepository.getAllGifs();
+        modelMap.put("allGifs", allGifs);
         return "index";
     }
 
