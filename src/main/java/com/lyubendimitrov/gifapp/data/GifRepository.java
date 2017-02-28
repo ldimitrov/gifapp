@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author <a href="mailto:lyuben.dimitrov@comsysto.com">dimitrov</a>
- * @since 10.09.2016
- */
 @Component
 public class GifRepository {
     private static final List<Gif> ALL_GIFS = Arrays.asList(

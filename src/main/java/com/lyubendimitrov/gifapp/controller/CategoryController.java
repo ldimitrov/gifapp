@@ -13,10 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-/**
- * @author <a href="mailto:lyuben.dimitrov@comsysto.com">dimitrov</a>
- * @since 10.09.2016
- */
 @Controller
 public class CategoryController {
 

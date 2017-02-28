@@ -6,11 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author <a href="mailto:lyuben.dimitrov@comsysto.com">dimitrov</a>
- * @since 10.09.2016
- */
-
 @Component
 public class CategoryRepository {
     private static final List<Category> ALL_CATEGORIES = Arrays.asList(

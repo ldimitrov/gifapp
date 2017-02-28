@@ -13,10 +13,6 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author <a href="mailto:lyuben.dimitrov@comsysto.com">dimitrov</a>
- * @since 07.09.2016
- */
 @Controller
 public class GifController {
 
