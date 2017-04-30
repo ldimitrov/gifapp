@@ -50,7 +50,7 @@ public class GifController {
         List<Gif> faves = new ArrayList<>();
 
         model.addAttribute("gifs", faves);
-        model.addAttribute("username", "Chris Ramacciotti"); // Static username
+        model.addAttribute("username", "lapadets"); // Static username
         return "gif/favorites";
     }
 
