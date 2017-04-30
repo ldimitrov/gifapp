@@ -1,14 +1,27 @@
 package com.lyubendimitrov.gifapp.model;
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Data
+@Entity
 public class Gif {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Lob
     private byte[] bytes;
     private String description;
+
+    @ManyToOne
     private Category category;
     private LocalDateTime dateUploaded = LocalDateTime.now();
     private String username = "You";
