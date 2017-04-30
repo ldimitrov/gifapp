@@ -9,6 +9,8 @@
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/checkstyle-idea.xml
+.idea/kotlinc.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
@@ -86,3 +88,4 @@ gradle-app.setting
 /build.gradle
 /settings.gradle
 /gradlew.bat
+.idea/inspectionProfiles/

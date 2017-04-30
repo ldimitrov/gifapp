@@ -1,2 +1,2 @@
 # gifapp
-spring-boot gifs app
+spring-boot GIF sharing app
