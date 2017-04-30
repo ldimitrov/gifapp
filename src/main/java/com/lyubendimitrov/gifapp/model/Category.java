@@ -1,13 +1,42 @@
 package com.lyubendimitrov.gifapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
 public class Category {
-    private int id;
+    private Long id;
     private String name;
+    private String colorCode;
+    private List<Gif> gifs = new ArrayList<>();
+
+    public Category(){}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        this.colorCode = colorCode;
+    }
+
+    public List<Gif> getGifs() {
+        return gifs;
+    }
+
 }
