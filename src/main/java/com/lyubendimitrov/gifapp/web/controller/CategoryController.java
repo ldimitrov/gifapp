@@ -1,8 +1,7 @@
 package com.lyubendimitrov.gifapp.web.controller;
 
 import com.lyubendimitrov.gifapp.model.Category;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import com.lyubendimitrov.gifapp.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,30 +9,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Controller
 public class CategoryController {
 
     @Autowired
-    private SessionFactory sessionFactory;
+    private CategoryService categoryService;
 
-    // Index of all categories
     @RequestMapping("/categories")
     public String listCategories(Model model) {
-        Session session = sessionFactory.openSession();
+        List<Category> categories = categoryService.findAll();
 
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-
-        CriteriaQuery<Category> criteria = builder.createQuery(Category.class);
-        criteria.from(Category.class);
-
-        // Execute Query
-        List<Category> categories = session.createQuery(criteria).getResultList();
-
-        model.addAttribute("categories",categories);
+        model.addAttribute("categories", categories);
         return "category/index";
     }
 
