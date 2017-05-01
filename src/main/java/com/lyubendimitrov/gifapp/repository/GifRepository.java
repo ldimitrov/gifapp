@@ -1,10 +1,10 @@
-package com.lyubendimitrov.gifapp.dao;
+package com.lyubendimitrov.gifapp.repository;
 
 import com.lyubendimitrov.gifapp.model.Gif;
 
 import java.util.List;
 
-public interface GifDao {
+public interface GifRepository {
     List<Gif> findAll();
 
     Gif findById(Long id);

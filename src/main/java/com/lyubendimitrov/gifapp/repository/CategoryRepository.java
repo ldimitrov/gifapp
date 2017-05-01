@@ -1,10 +1,10 @@
-package com.lyubendimitrov.gifapp.dao;
+package com.lyubendimitrov.gifapp.repository;
 
 import com.lyubendimitrov.gifapp.model.Category;
 
 import java.util.List;
 
-public interface CategoryDao {
+public interface CategoryRepository {
     List<Category> findAll();
 
     Category findById(Long id);

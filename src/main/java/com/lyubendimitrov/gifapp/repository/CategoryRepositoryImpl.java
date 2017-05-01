@@ -1,4 +1,4 @@
-package com.lyubendimitrov.gifapp.dao;
+package com.lyubendimitrov.gifapp.repository;
 
 import com.lyubendimitrov.gifapp.model.Category;
 import org.hibernate.Session;
@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Repository
-public class CategoryDaoImpl implements CategoryDao {
+public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Autowired
     SessionFactory sessionFactory;

@@ -1,7 +1,7 @@
 package com.lyubendimitrov.gifapp.service;
 
-import com.lyubendimitrov.gifapp.dao.CategoryDao;
 import com.lyubendimitrov.gifapp.model.Category;
+import com.lyubendimitrov.gifapp.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,11 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryRepository categoryRepository;
 
     @Override
     public List<Category> findAll() {
-        return categoryDao.findAll();
+        return categoryRepository.findAll();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void save(Category category) {
         // TODO add Logging
-        categoryDao.save(category);
+        categoryRepository.save(category);
     }
 
     @Override
