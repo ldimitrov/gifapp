@@ -25,7 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void save(Category category) {
-
+        // TODO add Logging
+        categoryDao.save(category);
     }
 
     @Override

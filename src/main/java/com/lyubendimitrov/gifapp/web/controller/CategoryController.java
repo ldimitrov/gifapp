@@ -2,6 +2,7 @@ package com.lyubendimitrov.gifapp.web.controller;
 
 import com.lyubendimitrov.gifapp.model.Category;
 import com.lyubendimitrov.gifapp.service.CategoryService;
+import com.lyubendimitrov.gifapp.web.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,8 @@ public class CategoryController {
     // Form for adding a new category
     @RequestMapping("categories/add")
     public String formNewCategory(Model model) {
-        // TODO: Add model attributes needed for new form
+        model.addAttribute("category", new Category());
+        model.addAttribute("colors", Color.values());
 
         return "category/form";
     }
@@ -62,11 +64,10 @@ public class CategoryController {
 
     // Add a category
     @RequestMapping(value = "/categories", method = RequestMethod.POST)
-    public String addCategory() {
-        // TODO: Add category if valid data was received
+    public String addCategory(Category category) {
+        categoryService.save(category);
 
-        // TODO: Redirect browser to /categories
-        return null;
+        return "redirect:/categories";
     }
 
     // Delete an existing category
