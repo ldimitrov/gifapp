@@ -49,6 +49,9 @@ public class CategoryController {
             model.addAttribute("category", new Category());
         }
         model.addAttribute("colors", Color.values());
+        model.addAttribute("action", "/categories");
+        model.addAttribute("heading", "New Category");
+        model.addAttribute("submit", "Create");
 
         return "category/form";
     }
@@ -60,6 +63,9 @@ public class CategoryController {
             model.addAttribute("category", categoryService.findById(categoryId));
         }
         model.addAttribute("colors", Color.values());
+        model.addAttribute("action", String.format("/categories/%s", categoryId));
+        model.addAttribute("heading", "Edit Category");
+        model.addAttribute("submit", "Edit");
 
         return "category/form";
     }
