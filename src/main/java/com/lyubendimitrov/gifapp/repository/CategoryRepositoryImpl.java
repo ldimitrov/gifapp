@@ -33,7 +33,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Category findById(Long id) {
-        return null;
+        Session session = sessionFactory.openSession();
+        Category category = session.get(Category.class, id);
+        session.close();
+        return category;
     }
 
     @Override
