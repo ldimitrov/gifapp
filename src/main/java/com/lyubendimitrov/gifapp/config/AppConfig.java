@@ -9,7 +9,7 @@ import org.springframework.core.env.Environment;
 
 
 @Configuration
-@PropertySource("app.properties")
+@PropertySource("application.properties")
 public class AppConfig {
     @Autowired
     private Environment env;

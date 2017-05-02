@@ -13,7 +13,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource("app.properties")
+@PropertySource("application.properties")
 public class DataConfig {
 
     @Autowired
