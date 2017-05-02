@@ -81,27 +81,33 @@ public class GifController {
         }
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("action", "/gifs");
-        model.addAttribute("heading", "Upload");
+        model.addAttribute("heading", "Upload new GIF");
         model.addAttribute("submit", "Add");
 
         return "gif/form";
     }
 
     // Form for editing an existing GIF
-    @RequestMapping(value = "/gifs/{dgifI}/edit")
+    @RequestMapping(value = "/gifs/{gifId}/edit")
     public String formEditGif(@PathVariable Long gifId, Model model) {
-        // TODO: Add model attributes needed for edit form
+        if (!model.containsAttribute("gif")) {
+            model.addAttribute("gif", new Gif());
+        }
+        model.addAttribute("categories", categoryService.findById(gifId));
+        model.addAttribute("action", String.format("/gifs/%s", gifId));
+        model.addAttribute("heading", "Edit GIF");
+        model.addAttribute("submit", "Edit");
 
         return "gif/form";
     }
 
     // Update an existing GIF
     @RequestMapping(value = "/gifs/{gifId}", method = RequestMethod.POST)
-    public String updateGif() {
-        // TODO: Update GIF if data is valid
+    public String updateGif(Gif gif, @RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
+        gifService.save(gif, file);
+        redirectAttributes.addFlashAttribute("flash", new ValidationMessage("GIF was successfully edited!", SUCCESS));
 
-        // TODO: Redirect browser to updated GIF's detail view
-        return null;
+        return String.format("redirect:/gifs/%s", gif.getId());
     }
 
     // Delete an existing GIF
