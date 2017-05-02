@@ -7,7 +7,7 @@ public class ValidationMessage {
     String message;
     Status status;
 
-    public static enum Status {
+    public enum Status {
         SUCCESS, FAILURE
     }
 }

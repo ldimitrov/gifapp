@@ -2,6 +2,8 @@ package com.lyubendimitrov.gifapp.web.controller;
 
 import com.lyubendimitrov.gifapp.model.Gif;
 import com.lyubendimitrov.gifapp.service.CategoryService;
+import com.lyubendimitrov.gifapp.service.GifService;
+import com.lyubendimitrov.gifapp.web.ValidationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.lyubendimitrov.gifapp.web.ValidationMessage.Status.SUCCESS;
+
 @Controller
 public class GifController {
+
+    @Autowired
+    private GifService gifService;
 
     @Autowired
     private CategoryService categoryService;
@@ -34,8 +42,7 @@ public class GifController {
     // Single GIF page
     @RequestMapping("/gifs/{gifId}")
     public String gifDetails(@PathVariable Long gifId, Model model) {
-        // TODO: Get gif whose id is gifId
-        Gif gif = null;
+        Gif gif = gifService.findById(gifId);
 
         model.addAttribute("gif", gif);
         return "gif/details";
@@ -45,8 +52,7 @@ public class GifController {
     @RequestMapping("/gifs/{gifId}.gif")
     @ResponseBody
     public byte[] gifImage(@PathVariable Long gifId) {
-        // TODO: Return image data as byte array of the GIF whose id is gifId
-        return null;
+        return gifService.findById(gifId).getBytes();
     }
 
     // Favorites - index of all GIFs marked favorite
@@ -62,18 +68,22 @@ public class GifController {
 
     // Upload a new GIF
     @RequestMapping(value = "/gifs", method = RequestMethod.POST)
-    public String addGif(@RequestParam MultipartFile file) {
-        // TODO: Upload new GIF if data is valid
-
-        // TODO: Redirect browser to new GIF's detail view
-        return null;
+    public String addGif(Gif gif, @RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
+        gifService.save(gif, file);
+        redirectAttributes.addFlashAttribute("flash", new ValidationMessage("GIF uploaded successfully!", SUCCESS));
+        return String.format("redirect:/gifs/%s", gif.getId());
     }
 
     // Form for uploading a new GIF
     @RequestMapping("/upload")
     public String formNewGif(Model model) {
-        model.addAttribute("gif", new Gif());
+        if (!model.containsAttribute("gif")) {
+            model.addAttribute("gif", new Gif());
+        }
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("action", "/gifs");
+        model.addAttribute("heading", "Upload");
+        model.addAttribute("submit", "Add");
 
         return "gif/form";
     }
