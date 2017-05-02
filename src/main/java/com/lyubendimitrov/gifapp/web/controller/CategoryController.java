@@ -72,11 +72,18 @@ public class CategoryController {
 
     // Update an existing category
     @RequestMapping(value = "/categories/{categoryId}", method = RequestMethod.POST)
-    public String updateCategory() {
-        // TODO: Update category if valid data was received
+    public String updateCategory(@Valid Category category, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.category", result);
+            redirectAttributes.addFlashAttribute("category", category);
 
-        // TODO: Redirect browser to /categories
-        return null;
+            return String.format("redirect:/categories/%s/edit", category.getId());
+        }
+        categoryService.save(category);
+
+        redirectAttributes.addFlashAttribute("flash", new ValidationMessage("Category is successfully edited!", SUCCESS));
+
+        return "redirect:/categories";
     }
 
     // Add a category
@@ -90,7 +97,7 @@ public class CategoryController {
         }
         categoryService.save(category);
 
-        redirectAttributes.addFlashAttribute("flash", new ValidationMessage("Category is succesfully added!", SUCCESS));
+        redirectAttributes.addFlashAttribute("flash", new ValidationMessage("Category is successfully added!", SUCCESS));
 
         return "redirect:/categories";
     }

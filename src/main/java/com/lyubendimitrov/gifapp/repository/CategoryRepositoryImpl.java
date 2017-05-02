@@ -44,7 +44,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         // TODO add Logging
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(category);
+        session.saveOrUpdate(category);
         session.getTransaction().commit();
         session.close();
     }
