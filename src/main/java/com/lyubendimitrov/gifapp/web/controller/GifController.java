@@ -32,8 +32,7 @@ public class GifController {
     // Home page - index of all GIFs
     @RequestMapping("/")
     public String listGifs(Model model) {
-        // TODO: Get all gifs
-        List<Gif> gifs = new ArrayList<>();
+        List<Gif> gifs = gifService.findAll();
 
         model.addAttribute("gifs", gifs);
         return "gif/index";
