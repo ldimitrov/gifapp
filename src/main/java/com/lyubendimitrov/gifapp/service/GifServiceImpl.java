@@ -2,6 +2,7 @@ package com.lyubendimitrov.gifapp.service;
 
 import com.lyubendimitrov.gifapp.model.Gif;
 import com.lyubendimitrov.gifapp.repository.GifRepository;
+import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,9 +32,12 @@ public class GifServiceImpl implements GifService {
         try {
             gif.setBytes(file.getBytes());
             gifRepository.save(gif);
+            // Hash the id
+            gif.setHash(new Hashids().encode(gif.getId()));
+            gifRepository.save(gif);
         } catch (IOException e) {
             // TODO LOGGING
-            e.printStackTrace();
+            System.err.println("Unable to get byte array from uploaded file.");
         }
     }
 
