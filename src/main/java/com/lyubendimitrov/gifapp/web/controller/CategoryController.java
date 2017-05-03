@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.lyubendimitrov.gifapp.web.ValidationMessage.Status.FAILURE;
 import static com.lyubendimitrov.gifapp.web.ValidationMessage.Status.SUCCESS;
 
 @Controller
@@ -103,10 +104,17 @@ public class CategoryController {
 
     // Delete an existing category
     @RequestMapping(value = "/categories/{categoryId}/delete", method = RequestMethod.POST)
-    public String deleteCategory(@PathVariable Long categoryId) {
-        // TODO: Delete category if it contains no GIFs
+    public String deleteCategory(@PathVariable Long categoryId, RedirectAttributes redirectAttributes) {
+        Category category = categoryService.findById(categoryId);
 
-        // TODO: Redirect browser to /categories
-        return null;
+        // TODO Implement logic to make it possible to delete a whole category including all gifs inside.
+        if (category.getGifs().size() > 0) {
+            redirectAttributes.addFlashAttribute("flash", new ValidationMessage("Only empty categories can be deleted", FAILURE));
+            return String.format("redirect:/categories/%s", categoryId);
+        }
+        categoryService.delete(category);
+        redirectAttributes.addFlashAttribute("flash", new ValidationMessage("Category deleted!", SUCCESS));
+
+        return "redirect:/categories";
     }
 }

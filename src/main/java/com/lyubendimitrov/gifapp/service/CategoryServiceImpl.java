@@ -31,6 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(Category category) {
-
+        // TODO check for empty categories hier and maybe throw NotEmptyCategoryException?
+        categoryRepository.delete(category);
     }
 }

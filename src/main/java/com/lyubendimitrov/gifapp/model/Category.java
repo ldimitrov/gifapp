@@ -3,6 +3,7 @@ package com.lyubendimitrov.gifapp.model;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +29,6 @@ public class Category {
     @Pattern(regexp = "#[0-9a-fA-F]{6}")
     private String colorCode;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Gif> gifs = new ArrayList<>();
 }
