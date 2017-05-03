@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,5 +40,22 @@ public class GifServiceImpl implements GifService {
     @Override
     public void delete(Gif gif) {
         gifRepository.delete(gif);
+    }
+
+    @Override
+    public void toggleFavourite(Gif gif) {
+        gif.setFavorite(!gif.isFavorite());
+        gifRepository.save(gif);
+    }
+
+    public List<Gif> getFavorites() {
+        List<Gif> faves = new ArrayList<>();
+
+        for(Gif gif : gifRepository.findAll()) {
+            if(gif.isFavorite()) {
+                faves.add(gif);
+            }
+        }
+        return faves;
     }
 }

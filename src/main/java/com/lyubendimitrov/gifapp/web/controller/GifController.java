@@ -29,7 +29,6 @@ public class GifController {
     @Autowired
     private CategoryService categoryService;
 
-    // Home page - index of all GIFs
     @RequestMapping("/")
     public String listGifs(Model model) {
         List<Gif> gifs = gifService.findAll();
@@ -38,7 +37,6 @@ public class GifController {
         return "gif/index";
     }
 
-    // Single GIF page
     @RequestMapping("/gifs/{gifId}")
     public String gifDetails(@PathVariable Long gifId, Model model) {
         Gif gif = gifService.findById(gifId);
@@ -47,25 +45,21 @@ public class GifController {
         return "gif/details";
     }
 
-    // GIF image data
     @RequestMapping("/gifs/{gifId}.gif")
     @ResponseBody
     public byte[] gifImage(@PathVariable Long gifId) {
         return gifService.findById(gifId).getBytes();
     }
 
-    // Favorites - index of all GIFs marked favorite
     @RequestMapping("/favorites")
     public String favorites(Model model) {
-        // TODO: Get list of all GIFs marked as favorite
-        List<Gif> faves = new ArrayList<>();
+        List<Gif> faves = gifService.getFavorites();
 
         model.addAttribute("gifs", faves);
         model.addAttribute("username", "lapadets"); // Static username
         return "gif/favorites";
     }
 
-    // Upload a new GIF
     @RequestMapping(value = "/gifs", method = RequestMethod.POST)
     public String addGif(Gif gif, @RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
         gifService.save(gif, file);
@@ -73,7 +67,6 @@ public class GifController {
         return String.format("redirect:/gifs/%s", gif.getId());
     }
 
-    // Form for uploading a new GIF
     @RequestMapping("/upload")
     public String formNewGif(Model model) {
         if (!model.containsAttribute("gif")) {
@@ -87,7 +80,6 @@ public class GifController {
         return "gif/form";
     }
 
-    // Form for editing an existing GIF
     @RequestMapping(value = "/gifs/{gifId}/edit")
     public String formEditGif(@PathVariable Long gifId, Model model) {
         if (!model.containsAttribute("gif")) {
@@ -101,7 +93,6 @@ public class GifController {
         return "gif/form";
     }
 
-    // Update an existing GIF
     @RequestMapping(value = "/gifs/{gifId}", method = RequestMethod.POST)
     public String updateGif(Gif gif, @RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
         gifService.save(gif, file);
@@ -110,7 +101,6 @@ public class GifController {
         return String.format("redirect:/gifs/%s", gif.getId());
     }
 
-    // Delete an existing GIF
     @RequestMapping(value = "/gifs/{gifId}/delete", method = RequestMethod.POST)
     public String deleteGif(@PathVariable Long gifId, RedirectAttributes redirectAttributes) {
         Gif gif = gifService.findById(gifId);
@@ -120,13 +110,12 @@ public class GifController {
         return "redirect:/";
     }
 
-    // Mark/unmark an existing GIF as a favorite
     @RequestMapping(value = "/gifs/{gifId}/favorite", method = RequestMethod.POST)
     public String toggleFavorite(@PathVariable Long gifId) {
-        // TODO: With GIF whose id is gifId, toggle the favorite field
+        Gif gif = gifService.findById(gifId);
+        gifService.toggleFavourite(gif);
 
-        // TODO: Redirect to GIF's detail view
-        return null;
+        return String.format("redirect:/gifs/%s", gif.getId());
     }
 
     // Search results
