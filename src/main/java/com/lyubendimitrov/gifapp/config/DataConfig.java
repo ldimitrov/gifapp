@@ -24,7 +24,7 @@ public class DataConfig {
         Resource config = new ClassPathResource("hibernate.cfg.xml");
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setConfigLocation(config);
-        sessionFactoryBean.setPackagesToScan(env.getProperty("giflib.entity.package"));
+        sessionFactoryBean.setPackagesToScan(env.getProperty("gifapp.entity.package"));
         sessionFactoryBean.setDataSource(dataSource());
         return sessionFactoryBean;
     }
@@ -33,14 +33,14 @@ public class DataConfig {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         // Driver class name
-        dataSource.setDriverClassName(env.getProperty("giflib.db.driver"));
+        dataSource.setDriverClassName(env.getProperty("gifapp.db.driver"));
 
         // Set Url
-        dataSource.setUrl(env.getProperty("giflib.db.url"));
+        dataSource.setUrl(env.getProperty("gifapp.db.url"));
 
         // Set Username and Password
-        dataSource.setUsername(env.getProperty("giflib.db.username"));
-        dataSource.setPassword(env.getProperty("giflib.db.password"));
+        dataSource.setUsername(env.getProperty("gifapp.db.username"));
+        dataSource.setPassword(env.getProperty("gifapp.db.password"));
 
         return dataSource;
     }
