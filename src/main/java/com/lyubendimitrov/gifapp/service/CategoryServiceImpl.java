@@ -25,13 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void save(Category category) {
-        // TODO add Logging
         categoryRepository.save(category);
     }
 
     @Override
-    public void delete(Category category) {
-        // TODO check for empty categories hier and maybe throw NotEmptyCategoryException?
-        categoryRepository.delete(category);
-    }
+    public void delete(Category category) { categoryRepository.delete(category); }
 }
