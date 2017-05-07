@@ -3,18 +3,22 @@ package com.lyubendimitrov.gifapp.web.controller;
 import com.lyubendimitrov.gifapp.model.Gif;
 import com.lyubendimitrov.gifapp.service.CategoryService;
 import com.lyubendimitrov.gifapp.service.GifService;
+import com.lyubendimitrov.gifapp.validator.GifValidator;
 import com.lyubendimitrov.gifapp.web.ValidationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,11 @@ public class GifController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @InitBinder("gif")
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new GifValidator());
+    }
 
     @RequestMapping("/")
     public String listGifs(Model model) {
@@ -61,8 +70,14 @@ public class GifController {
     }
 
     @RequestMapping(value = "/gifs", method = RequestMethod.POST)
-    public String addGif(Gif gif, @RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
-        gifService.save(gif, file);
+    public String addGif(@Valid Gif gif, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.gif", result);
+            redirectAttributes.addFlashAttribute("gif", gif);
+            return "redirect:/upload";
+        }
+
+        gifService.save(gif, gif.getFile());
         redirectAttributes.addFlashAttribute("flash", new ValidationMessage("GIF uploaded successfully!", SUCCESS));
         return String.format("redirect:/gifs/%s", gif.getId());
     }
@@ -83,9 +98,9 @@ public class GifController {
     @RequestMapping(value = "/gifs/{gifId}/edit")
     public String formEditGif(@PathVariable Long gifId, Model model) {
         if (!model.containsAttribute("gif")) {
-            model.addAttribute("gif", new Gif());
+            model.addAttribute("gif", gifService.findById(gifId));
         }
-        model.addAttribute("categories", categoryService.findById(gifId));
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("action", String.format("/gifs/%s", gifId));
         model.addAttribute("heading", "Edit GIF");
         model.addAttribute("submit", "Edit");
@@ -94,8 +109,14 @@ public class GifController {
     }
 
     @RequestMapping(value = "/gifs/{gifId}", method = RequestMethod.POST)
-    public String updateGif(Gif gif, @RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
-        gifService.save(gif, file);
+    public String updateGif(@Valid Gif gif, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.gif", result);
+            redirectAttributes.addFlashAttribute("gif", gif);
+            return String.format("redirect:/gifs/%s/edit", gif.getId());
+        }
+
+        gifService.save(gif, gif.getFile());
         redirectAttributes.addFlashAttribute("flash", new ValidationMessage("GIF was successfully edited!", SUCCESS));
 
         return String.format("redirect:/gifs/%s", gif.getId());

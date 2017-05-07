@@ -45,6 +45,22 @@ public class GifServiceImpl implements GifService {
     }
 
     @Override
+    public void update(Gif gif, MultipartFile file) {
+        if (file != null && !file.isEmpty()) {
+            try {
+                gif.setBytes(file.getBytes());
+            } catch (IOException e) {
+                LOG.error("Unable to get byte array from uploaded file.");
+            }
+        } else {
+            Gif oldGif = gifRepository.findById(gif.getId());
+            gif.setBytes(oldGif.getBytes());
+        }
+
+        gifRepository.save(gif);
+    }
+
+    @Override
     public void delete(Gif gif) {
         gifRepository.delete(gif);
     }

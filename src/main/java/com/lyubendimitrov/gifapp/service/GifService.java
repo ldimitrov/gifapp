@@ -12,6 +12,8 @@ public interface GifService {
 
     void save(Gif gif, MultipartFile file);
 
+    void update(Gif gif, MultipartFile file);
+
     void delete(Gif gif);
 
     void toggleFavourite(Gif gif);
